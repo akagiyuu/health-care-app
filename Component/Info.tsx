@@ -1,17 +1,16 @@
-import {PropsWithChildren} from 'react';
+import {PropsWithChildren, useState} from 'react';
 import {ScrollView, Text, StyleSheet} from 'react-native';
-import get_data from '../Helper/database';
+import { get_database } from '../Helper/database';
 
 const Info: React.FC<
     PropsWithChildren<{
         text: string;
     }>
 > = ({text}) => {
-    const value = get_data();
+    const database = get_database();
     return (
         <ScrollView style={style.info}>
             <Text>{text}</Text>
-            <Text>{value}</Text>
         </ScrollView>
     );
 };
