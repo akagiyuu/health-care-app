@@ -66,3 +66,5 @@ buck-out/
 ios/
 android/
 .bundle/
+
+**/*auth*
