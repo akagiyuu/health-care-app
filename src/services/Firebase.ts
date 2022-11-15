@@ -1,62 +1,41 @@
-import { initializeApp } from 'firebase/app';
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    Unsubscribe
-} from 'firebase/auth';
-import {
-    DataSnapshot,
-    get,
-    getDatabase,
-    onValue,
-    ref,
-    type Database
-} from 'firebase/database';
+import firebase from '@react-native-firebase/app';
+import database, {
+    FirebaseDatabaseTypes,
+} from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
 import AuthenticationData from '../data/firebase_auth.json';
 import { Event } from '../lib/Event';
 
 export default class Firebase {
-    private static _Instance: Database | null = null;
-    private static readonly _HealthChange = new Event<DataSnapshot>();
-    private static _unscribe: Unsubscribe | null = null;
-    public static get HealthChange() {
-        return this._HealthChange.expose();
-    }
+    public static readonly HealthChange =
+        new Event<FirebaseDatabaseTypes.DataSnapshot>();
+    private static _HealthRef: FirebaseDatabaseTypes.Reference | null = null;
 
     public static async init() {
-        this._Instance = await this.CreateDatabase();
+        await this.Auth();
+        auth().onAuthStateChanged(user => {
+            if (user === null) return;
+            console.log('Signed in as ', user.email);
+        });
     }
 
-    private static async CreateDatabase(): Promise<Database> {
-        const app = initializeApp(AuthenticationData.config);
-        const auth = getAuth(app);
-        const database = getDatabase(app);
-        await signInWithEmailAndPassword(auth, AuthenticationData.email, AuthenticationData.password);
-
-        return database;
+    private static async Auth() {
+        const app = await firebase.initializeApp(AuthenticationData.config);
+        app.auth().signInWithEmailAndPassword(
+            AuthenticationData.email,
+            AuthenticationData.password,
+        );
     }
     public static async CreateRef(key: string | null) {
         if (key === null) return;
-        if (this._unscribe !== null) {
-            this._unscribe();
-            this._unscribe = null;
-        }
+        if (this._HealthRef !== null) this._HealthRef.off('value');
 
-        const database = await this.Instance();
-        const user_ref = ref(database, key);
-        const data = await get(user_ref);
+        const user_ref = database().ref(key);
+        const data = await user_ref.once('value');
 
         if (!data.exists()) return false;
 
-        this._unscribe = onValue(user_ref, snapshot => {
-            this._HealthChange.trigger(snapshot);
-        });
+        user_ref.on('value', snapshot => this.HealthChange.trigger(snapshot));
         return true;
-    }
-
-    public static async Instance() {
-        if (this._Instance === null)
-            this._Instance = await this.CreateDatabase();
-        return this._Instance;
     }
 }

@@ -1,11 +1,11 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC, memo, PropsWithChildren } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { Text, View } from 'react-native';
 import { TextInput as RNTextInput } from 'react-native-gesture-handler';
-import { TextInputProps } from './types';
+import { FormInputProps } from './types';
 
-const ControlledTextInput: FC<
-    PropsWithChildren<TextInputProps>
+const LabeledTextInput: FC<
+    PropsWithChildren<FormInputProps>
 > = properties => {
     const { label, name, rules, defaultValue, ...input_props } = properties;
 
@@ -25,12 +25,12 @@ const ControlledTextInput: FC<
     );
 };
 
-export const TextInput: FC<PropsWithChildren<TextInputProps>> = properties => {
+export const FormInput: FC<PropsWithChildren<FormInputProps>> = properties => {
     const form_context = useFormContext();
     if (!form_context) {
         console.error('TextInput must be wrapped by the FormProvider');
         return null;
     }
 
-    return <ControlledTextInput {...properties} />;
+    return <LabeledTextInput {...properties} />;
 };

@@ -9,7 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { LineGraph } from 'react-native-graph';
 import { useAppDispatch } from '../../../hooks/Redux';
 import { sign_in } from '../slice';
-import { TextInput } from '../../../components/Input';
+import { FormInput } from './FormInput';
 
 export const SignInForm = () => {
     const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ export const SignInForm = () => {
     return (
         <View>
             <FormProvider {...methods}>
-                <TextInput
+                <FormInput
                     name="id"
                     label="Id: "
                     rules={{ required: 'Id is required!' }}
