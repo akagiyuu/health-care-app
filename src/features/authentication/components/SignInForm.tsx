@@ -35,13 +35,6 @@ export const SignInForm = () => {
                 color="#96CDFB"
                 onPress={methods.handleSubmit(onSubmit, onError)}
             />
-            <GestureHandlerRootView>
-                <LineGraph
-                    points={[{ value: 10, date: new Date(2000, 10, 3) }]}
-                    animated={false}
-                    color="#4484B2"
-                />
-            </GestureHandlerRootView>
         </View>
     );
 };

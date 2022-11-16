@@ -1,8 +1,8 @@
 import firebase from '@react-native-firebase/app';
-import database, {
-    FirebaseDatabaseTypes,
-} from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
+import database, {
+    FirebaseDatabaseTypes
+} from '@react-native-firebase/database';
 import AuthenticationData from '../data/firebase_auth.json';
 import { Event } from '../lib/Event';
 
@@ -30,12 +30,14 @@ export default class Firebase {
         if (key === null) return;
         if (this._HealthRef !== null) this._HealthRef.off('value');
 
-        const user_ref = database().ref(key);
-        const data = await user_ref.once('value');
+        this._HealthRef = database().ref(key);
+        const data = await this._HealthRef.once('value');
 
         if (!data.exists()) return false;
 
-        user_ref.on('value', snapshot => this.HealthChange.trigger(snapshot));
+        this._HealthRef.on('value', snapshot =>
+            this.HealthChange.trigger(snapshot),
+        );
         return true;
     }
 }
