@@ -1,9 +1,8 @@
-export interface HealthData {
-    'Heart rate': number;
-    'SP O2': number;
-    'Abnormal conditions': number;
-}
-export type HealthKey = keyof HealthData;
+export type HealthKey = 'Heart rate' | 'SP O2' | 'Abnormal conditions';
+
+export type HealthData = {
+    [key in HealthKey]: number;
+};
 
 export const Default: HealthData = {
     'Heart rate': 0,
