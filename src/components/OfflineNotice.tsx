@@ -1,11 +1,12 @@
-import { FC, PropsWithChildren } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
-const OfflineNotice: FC<
-    PropsWithChildren<{ is_internet_available: boolean }>
-> = ({ is_internet_available }) => (
+type OfflineNoticeProps = {
+    is_internet_available: boolean
+}
+
+const OfflineNotice = ({ is_internet_available }: OfflineNoticeProps) => (
     <View
         style={{
             ...styles.container,

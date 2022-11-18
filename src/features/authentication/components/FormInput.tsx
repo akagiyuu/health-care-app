@@ -3,7 +3,7 @@ import {
     UseControllerProps,
     useFormContext,
 } from 'react-hook-form';
-import { StyleSheet, Text, TextInputProps, View } from 'react-native';
+import { StyleSheet, TextInputProps, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -19,19 +19,14 @@ const LabeledTextInput = ({
     name,
     rules,
     defaultValue,
-    style,
     ...input_props
 }: FormInputProps) => {
     const { field } = useController({ name, rules, defaultValue });
 
     return (
-        <View
-            style={StyleSheet.compose(style, {
-                flexDirection: 'row',
-                alignItems: 'center',
-            })}>
+        <View style={styles.container}>
             <View style={styles.label}>
-                <Icon name={icon} color="#C34043" />
+                <Icon name={icon} size={20}/>
             </View>
             <TextInput
                 onChangeText={field.onChange}
@@ -46,8 +41,13 @@ const LabeledTextInput = ({
 };
 
 const styles = StyleSheet.create({
+    container: {
+        marginVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
     label: {
-        width: 30,
+        width: 40,
         alignItems: 'center',
         justifyContent: 'center',
     },

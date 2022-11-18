@@ -8,7 +8,6 @@ import { Button, StyleSheet, View, ViewStyle } from 'react-native';
 import { useAppDispatch } from '../../../hooks/Redux';
 import { sign_in } from '../slice';
 import { FormInput } from './FormInput';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 export const SignInForm = ({ style }: { style?: ViewStyle }) => {
     const dispatch = useAppDispatch();
@@ -28,20 +27,21 @@ export const SignInForm = ({ style }: { style?: ViewStyle }) => {
                     icon="key-outline"
                     placeholder="Id"
                     rules={{ required: 'Id is required!' }}
-                    style={styles.form_input}
                 />
             </FormProvider>
-            <Button
-                title="Sign in"
-                color="#96CDFB"
-                onPress={methods.handleSubmit(onSubmit, onError)}
-            />
+            <View style={styles.button}>
+                <Button
+                    title="Sign in"
+                    color="#96CDFB"
+                    onPress={methods.handleSubmit(onSubmit, onError)}
+                    />
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    form_input: {
-        marginVertical: 10
+    button: {
+        marginTop: 10,
     }
 })

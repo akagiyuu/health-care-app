@@ -5,27 +5,22 @@ import {
     DrawerItem,
     DrawerItemList,
 } from '@react-navigation/drawer';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useAppDispatch } from '../../hooks/Redux';
 import { sign_out } from '../../features/authentication/slice';
 import UserProfile from './UserProfile';
 import HealthPage from '../../pages/Health';
 
-const DrawerContent: React.FC<DrawerContentComponentProps> = properties => {
+const DrawerContent = (properties: DrawerContentComponentProps) => {
     const dispatch = useAppDispatch();
     return (
-        <DrawerContentScrollView
-            {...properties}
-            contentContainerStyle={{
-                flex: 1,
-                justifyContent: 'space-between',
-            }}>
+        <DrawerContentScrollView {...properties} contentContainerStyle={styles.container}>
             <View>
                 <UserProfile />
                 <DrawerItemList {...properties} />
             </View>
-            <View style={{ flexDirection: 'column' }}>
+            <View style={styles.sign_out}>
                 <DrawerItem
                     icon={({ size }) => (
                         <Icon name="sign-out" color="#C34043" size={size} />
@@ -38,6 +33,14 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = properties => {
         </DrawerContentScrollView>
     );
 };
+
+const styles = StyleSheet.create({
+    sign_out: { flexDirection: 'column' },
+    container: {
+        flex: 1,
+        justifyContent: 'space-between',
+    },
+});
 
 const drawer = createDrawerNavigator();
 

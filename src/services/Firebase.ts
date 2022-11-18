@@ -35,9 +35,14 @@ export default class Firebase {
 
         if (!data.exists()) return false;
 
-        this._HealthRef.on('value', snapshot =>
-            this.HealthChange.trigger(snapshot.val()),
-        );
+        this._HealthRef.on('value', snapshot => {
+            try {
+                const data: HealthData.Entry = snapshot.val();
+                this.HealthChange.trigger(data);
+            } catch (error) {
+                console.log(error);
+            }
+        });
         return true;
     }
 }

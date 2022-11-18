@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     form: {
-        width: '50%',
-        padding: 10,
+        width: '75%',
+        padding: '8%',
         borderWidth: 2,
         borderRadius: 10
     }
