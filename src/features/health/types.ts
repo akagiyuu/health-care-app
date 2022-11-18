@@ -1,5 +1,6 @@
 export namespace HealthData {
-    export type Key = 'Heart rate' | 'SP O2' | 'Abnormal conditions';
+    export const KeyArray = ['Heart rate' , 'SP O2' , 'Abnormal conditions'] as const;
+    export type Key = typeof KeyArray[number];
 
     export type Entry = {
         [key in Key]: number;

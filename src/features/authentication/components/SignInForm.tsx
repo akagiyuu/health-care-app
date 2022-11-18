@@ -2,14 +2,15 @@ import {
     FormProvider,
     SubmitErrorHandler,
     SubmitHandler,
-    useForm
+    useForm,
 } from 'react-hook-form';
-import { Button, View } from 'react-native';
+import { Button, StyleSheet, View, ViewStyle } from 'react-native';
 import { useAppDispatch } from '../../../hooks/Redux';
 import { sign_in } from '../slice';
 import { FormInput } from './FormInput';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-export const SignInForm = () => {
+export const SignInForm = ({ style }: { style?: ViewStyle }) => {
     const dispatch = useAppDispatch();
 
     const onSubmit: SubmitHandler<FormData> = data => dispatch(sign_in(data));
@@ -20,12 +21,14 @@ export const SignInForm = () => {
     const { ...methods } = useForm();
 
     return (
-        <View>
+        <View style={style}>
             <FormProvider {...methods}>
                 <FormInput
                     name="id"
-                    label="Id: "
+                    icon="key-outline"
+                    placeholder="Id"
                     rules={{ required: 'Id is required!' }}
+                    style={styles.form_input}
                 />
             </FormProvider>
             <Button
@@ -36,3 +39,9 @@ export const SignInForm = () => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    form_input: {
+        marginVertical: 10
+    }
+})

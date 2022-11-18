@@ -7,7 +7,7 @@ import { HealthData, Info } from '../features/health';
 import { InfoGraph } from '../features/health/components/InfoGraph';
 import Firebase from '../services/Firebase';
 
-const NUMBER_OF_RECORD = 10;
+const RECORD_COUNT = 10;
 const MAX_VALUE = 300;
 
 const HealthPage = () => {
@@ -20,35 +20,26 @@ const HealthPage = () => {
     return (
         <View>
             <VictoryChart
-                domain={{ x: [0, NUMBER_OF_RECORD - 1], y: [0, MAX_VALUE] }}>
-                <VictoryGroup>
-                    <InfoGraph
-                        label="Heart rate"
-                        latestData={{ data: health['Heart rate'] }}
-                        recordSize={NUMBER_OF_RECORD}
-                        color="#006655"
-                    />
-                </VictoryGroup>
-                <VictoryGroup>
-                    <InfoGraph
-                        label="SP O2"
-                        latestData={{ data: health['SP O2'] }}
-                        recordSize={NUMBER_OF_RECORD}
-                        color="#7896aa"
-                    />
-                </VictoryGroup>
+                domain={{ x: [0, RECORD_COUNT - 1], y: [0, MAX_VALUE] }}>
+                {HealthData.KeyArray.slice(0, 2).map(value => (
+                    <VictoryGroup>
+                        <InfoGraph
+                            label={value}
+                            latestData={{ data: health[value] }}
+                            recordSize={RECORD_COUNT}
+                            color="#006655"
+                        />
+                    </VictoryGroup>
+                ))}
             </VictoryChart>
             <View>
-                <Info
-                    text="Heart rate"
-                    value={health['Heart rate']}
-                    range={HealthLimit.HeartRate}
-                />
-                <Info
-                    text="SP O2"
-                    value={health['SP O2']}
-                    range={HealthLimit.SPO2}
-                />
+                {HealthData.KeyArray.slice(0, 2).map(value => (
+                    <Info
+                        text={value}
+                        value={health[value]}
+                        range={HealthLimit.HeartRate}
+                    />
+                ))}
             </View>
         </View>
     );
