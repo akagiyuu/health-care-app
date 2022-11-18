@@ -5,8 +5,6 @@ import {
     useForm
 } from 'react-hook-form';
 import { Button, View } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { LineGraph } from 'react-native-graph';
 import { useAppDispatch } from '../../../hooks/Redux';
 import { sign_in } from '../slice';
 import { FormInput } from './FormInput';

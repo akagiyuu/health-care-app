@@ -4,7 +4,7 @@ import Firebase from '../services/Firebase';
 
 export const health_change_listener = async () => {
     Firebase.HealthChange.on(async snapshot => {
-        const data: HealthData = snapshot.val();
+        const data: HealthData.Entry = snapshot;
 
         if (data['Abnormal conditions'] === undefined) return;
 

@@ -1,10 +1,10 @@
 import { memo } from 'react';
 import { Text, View } from 'react-native';
 import { Range } from '../../../data/types';
-import { HealthKey } from '../types';
+import { HealthData } from '../types';
 
 type HealthInfo = {
-    text: HealthKey;
+    text: HealthData.Key;
     value: number;
     range: Range;
 };

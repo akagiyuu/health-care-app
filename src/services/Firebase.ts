@@ -1,14 +1,14 @@
 import firebase from '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
 import database, {
-    FirebaseDatabaseTypes
+    FirebaseDatabaseTypes,
 } from '@react-native-firebase/database';
 import AuthenticationData from '../data/firebase_auth.json';
+import { HealthData } from '../features/health';
 import { Event } from '../lib/Event';
 
 export default class Firebase {
-    public static readonly HealthChange =
-        new Event<FirebaseDatabaseTypes.DataSnapshot>();
+    public static readonly HealthChange = new Event<HealthData.Entry>();
     private static _HealthRef: FirebaseDatabaseTypes.Reference | null = null;
 
     public static async init() {
@@ -36,7 +36,7 @@ export default class Firebase {
         if (!data.exists()) return false;
 
         this._HealthRef.on('value', snapshot =>
-            this.HealthChange.trigger(snapshot),
+            this.HealthChange.trigger(snapshot.val()),
         );
         return true;
     }

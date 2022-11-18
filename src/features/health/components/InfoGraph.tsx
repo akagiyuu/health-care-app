@@ -1,64 +1,49 @@
-import { VictoryChart, VictoryLine } from 'victory-native';
-import { FC, PropsWithChildren, useEffect, useState } from 'react';
-import { Button, View } from 'react-native';
-import Firebase from '../../../services/Firebase';
-import { HealthKey } from '../types';
+import { useEffect, useState } from 'react';
+import { VictoryLine } from 'victory-native';
+import { HealthData, HealthRecord } from '../types';
 
-const take_last = (
-    array: { time: number; value: number }[],
-    number_of_elements: number,
-) => {
-    let length = array.length;
-    if (length <= number_of_elements) return array;
-    let result = Array(number_of_elements);
-    for (let i = 0; i < number_of_elements; i++) {
-        console.log(array[length - 1 - i]);
-        result[i] = {
-            time: i,
-            value: array[length - 1 - number_of_elements + i].value,
-        };
-    }
-
-    return result;
-};
+interface InfoGraphProps {
+    label: HealthData.Key;
+    latestData: { data: number };
+    recordSize: number;
+    color: string;
+    domain?: any;
+}
 
 export const InfoGraph = ({
     label,
-    latest_value,
-    number_of_records,
+    latestData,
+    recordSize,
+    color,
     domain,
-}: {
-    label: HealthKey;
-    latest_value: number;
-    number_of_records: number;
-    domain?: any;
-}) => {
-    const [record, set_record] = useState([{ time: 0, value: 0 }]);
+}: InfoGraphProps) => {
+    const [record, set_record] = useState(new HealthRecord(recordSize));
     console.log('Label: ', label);
     console.log('Record: ', record);
 
     useEffect(() => {
-        const append_chart = (latest_value: number) => {
-            console.log(latest_value);
-            var data = take_last(record, number_of_records - 1);
-            var obj = {
-                time: `${data.length}`,
-                value: latest_value,
-            };
-            data.push(obj);
-            set_record(data);
+        const append_chart = (value: number) => {
+            set_record(record => {
+                record.add(value);
+                return record;
+            });
         };
-        append_chart(latest_value);
-    }, [latest_value]);
+        append_chart(latestData.data);
+    }, [latestData]);
     return (
         <VictoryLine
+            style={{
+                data: {
+                    stroke: color,
+                },
+            }}
             domain={domain}
             standalone={false}
             animate={{
-                duration: 2000,
-                onLoad: { duration: 1000 },
+                duration: 500,
+                onLoad: { duration: 500 },
             }}
-            data={record}
+            data={record.data}
             x="time"
             y="value"
         />
