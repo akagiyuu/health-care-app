@@ -11,31 +11,31 @@ const MAX_VALUE = 300;
 
 const HealthPage = () => {
     const health = useHealth(HealthData.Default);
+    const graph = HealthData.KeyArray.slice(0, 2).map(value => (
+        <VictoryGroup>
+            <InfoGraph
+                label={value}
+                latestData={{ data: health[value] }}
+                recordSize={RECORD_COUNT}
+                color="#006655"
+            />
+        </VictoryGroup>
+    ));
+    const info = HealthData.KeyArray.slice(0, 2).map(value => (
+        <InfoText
+            text={value}
+            value={health[value]}
+            range={HealthLimit.HeartRate}
+        />
+    ));
 
     return (
         <View>
             <VictoryChart
                 domain={{ x: [0, RECORD_COUNT - 1], y: [0, MAX_VALUE] }}>
-                {HealthData.KeyArray.slice(0, 2).map(value => (
-                    <VictoryGroup>
-                        <InfoGraph
-                            label={value}
-                            latestData={{ data: health[value] }}
-                            recordSize={RECORD_COUNT}
-                            color="#006655"
-                        />
-                    </VictoryGroup>
-                ))}
+                {graph}
             </VictoryChart>
-            <View>
-                {HealthData.KeyArray.slice(0, 2).map(value => (
-                    <InfoText
-                        text={value}
-                        value={health[value]}
-                        range={HealthLimit.HeartRate}
-                    />
-                ))}
-            </View>
+            <View>{info}</View>
         </View>
     );
 };

@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import { VictoryLine } from 'victory-native';
-import { HealthData, HealthRecord } from '../types';
+import { useHealthGraphData } from '../hooks/useHealthGraphData';
+import { HealthData } from '../types';
 
 interface InfoGraphProps {
     label: HealthData.Key;
@@ -17,19 +17,10 @@ export const InfoGraph = ({
     color,
     domain,
 }: InfoGraphProps) => {
-    const [record, set_record] = useState(new HealthRecord(recordSize));
+    const graph_data = useHealthGraphData(recordSize, latestData);
     console.log('Label: ', label);
-    console.log('Record: ', record);
+    console.log('Record: ', graph_data);
 
-    useEffect(() => {
-        const append_chart = (value: number) => {
-            set_record(record => {
-                record.add(value);
-                return record;
-            });
-        };
-        append_chart(latestData.data);
-    }, [latestData]);
     return (
         <VictoryLine
             style={{
@@ -43,7 +34,7 @@ export const InfoGraph = ({
                 duration: 500,
                 onLoad: { duration: 500 },
             }}
-            data={record.data}
+            data={graph_data}
             x="time"
             y="value"
         />

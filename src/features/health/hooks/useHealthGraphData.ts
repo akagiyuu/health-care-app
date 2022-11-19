@@ -16,9 +16,11 @@ type Action = {
     type: 'add' | 'new';
     data: number;
 };
-export const useHealthRecord = (
+export const useHealthGraphData = (
     record_count: number,
-    data_property: number,
+    data_property: {
+        data: number
+    },
 ) => {
     const [record, dispatch] = useReducer<Reducer<HealthRecordData[], Action>>(
         (record, action) => {
@@ -37,7 +39,7 @@ export const useHealthRecord = (
     );
 
     useEffect(() => {
-        dispatch({ type: 'add', data: data_property });
+        dispatch({ type: 'add', data: data_property.data });
     }, [data_property]);
 
     return record;
