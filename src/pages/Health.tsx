@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { VictoryChart, VictoryGroup } from 'victory-native';
 import { HealthLimit } from '../data/HealthLimit';
 import { HealthData, InfoText } from '../features/health';
@@ -11,8 +11,8 @@ const MAX_VALUE = 300;
 
 const HealthPage = () => {
     const health = useHealth(HealthData.Default);
-    const graph = HealthData.KeyArray.slice(0, 2).map(value => (
-        <VictoryGroup>
+    const graph = HealthData.KeyArray.slice(0, 2).map((value, index) => (
+        <VictoryGroup key={index}>
             <InfoGraph
                 label={value}
                 latestData={{ data: health[value] }}
@@ -21,8 +21,9 @@ const HealthPage = () => {
             />
         </VictoryGroup>
     ));
-    const info = HealthData.KeyArray.slice(0, 2).map(value => (
+    const info = HealthData.KeyArray.slice(0, 2).map((value, index) => (
         <InfoText
+            key={index}
             text={value}
             value={health[value]}
             range={HealthLimit.HeartRate}
@@ -35,9 +36,15 @@ const HealthPage = () => {
                 domain={{ x: [0, RECORD_COUNT - 1], y: [0, MAX_VALUE] }}>
                 {graph}
             </VictoryChart>
-            <View>{info}</View>
+            <View style={styles.info_text_container}>{info}</View>
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    info_text_container: {
+        alignItems: 'center',
+    },
+});
 
 export default HealthPage;
