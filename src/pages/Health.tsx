@@ -1,21 +1,16 @@
-import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { VictoryChart, VictoryGroup } from 'victory-native';
 import { HealthLimit } from '../data/HealthLimit';
-import { HealthData, Info } from '../features/health';
+import { HealthData, InfoText } from '../features/health';
 
 import { InfoGraph } from '../features/health/components/InfoGraph';
-import Firebase from '../services/Firebase';
+import { useHealth } from '../features/health/hooks/useHealth';
 
 const RECORD_COUNT = 10;
 const MAX_VALUE = 300;
 
 const HealthPage = () => {
-    const [health, set_health] = useState(HealthData.Default);
-
-    useEffect(() => {
-        Firebase.HealthChange.on(snapshot => set_health(snapshot));
-    }, []);
+    const health = useHealth(HealthData.Default);
 
     return (
         <View>
@@ -34,7 +29,7 @@ const HealthPage = () => {
             </VictoryChart>
             <View>
                 {HealthData.KeyArray.slice(0, 2).map(value => (
-                    <Info
+                    <InfoText
                         text={value}
                         value={health[value]}
                         range={HealthLimit.HeartRate}

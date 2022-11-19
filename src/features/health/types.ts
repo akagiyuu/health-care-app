@@ -32,3 +32,8 @@ export class HealthRecord {
         this.data[length - 1].value = value;
     }
 }
+
+export type HealthRecordData = {
+    time: number,
+    value: number,
+}

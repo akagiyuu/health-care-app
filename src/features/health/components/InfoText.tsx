@@ -8,7 +8,7 @@ type HealthInfo = {
     range: Range;
 };
 
-export const Info = ({ text, value, range }: HealthInfo) => (
+export const InfoText = ({ text, value, range }: HealthInfo) => (
     <View style={{ flexDirection: 'row' }}>
         <Text>{text + ': '}</Text>
         <Text style={{ color: range.is_outside(value) ? '#C34043' : '#000' }}>

@@ -1,2 +1,2 @@
 export * from './types';
-export * from './components/Info';
+export * from './components/InfoText';
