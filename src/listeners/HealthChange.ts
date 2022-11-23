@@ -1,4 +1,5 @@
 import notifee, { AndroidImportance } from '@notifee/react-native';
+import { parse } from '../features/health/lib/AbnormalCondition';
 import { HealthData } from '../features/health/types';
 import Firebase from '../services/Firebase';
 
@@ -11,7 +12,7 @@ export const health_change_listener = async () => {
         const abnormal_conditions = data['Abnormal conditions'];
         await notify(
             'Warning',
-            'Abnormal Conditions: ' + abnormal_conditions.toString(),
+            'Abnormal Conditions: ' + parse(abnormal_conditions).toString(),
         );
     });
 };

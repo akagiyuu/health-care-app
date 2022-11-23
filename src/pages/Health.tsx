@@ -9,6 +9,8 @@ import { useHealth } from '../features/health/hooks/useHealth';
 const RECORD_COUNT = 10;
 const MAX_VALUE = 300;
 
+const colors = ['#006655', '#754862'];
+
 const HealthPage = () => {
     const health = useHealth(HealthData.Default);
     const graph = HealthData.KeyArray.slice(0, 2).map((value, index) => (
@@ -17,7 +19,7 @@ const HealthPage = () => {
                 label={value}
                 latestData={{ data: health[value] }}
                 recordSize={RECORD_COUNT}
-                color="#006655"
+                color={colors[index]}
             />
         </VictoryGroup>
     ));
@@ -27,6 +29,7 @@ const HealthPage = () => {
             text={value}
             value={health[value]}
             range={HealthLimit.HeartRate}
+            color={colors[index]}
         />
     ));
 

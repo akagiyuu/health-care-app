@@ -6,11 +6,12 @@ type HealthInfo = {
     text: HealthData.Key;
     value: number;
     range: Range;
+    color: string;
 };
 
-export const InfoText = ({ text, value, range }: HealthInfo) => (
+export const InfoText = ({ text, value, range, color }: HealthInfo) => (
     <View style={styles.container}>
-        <Text style={styles.label}>{text + ': '}</Text>
+        <Text style={{color: color}}>{text + ': '}</Text>
         <Text style={{ color: range.is_outside(value) ? '#C34043' : '#000' }}>
             {value.toString()}
         </Text>
@@ -19,7 +20,4 @@ export const InfoText = ({ text, value, range }: HealthInfo) => (
 
 const styles = StyleSheet.create({
     container: { flexDirection: 'row' },
-    label: {
-        color: '#000'
-    }
 });
