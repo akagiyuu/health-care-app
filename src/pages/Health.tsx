@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { VictoryChart, VictoryGroup } from 'victory-native';
+import { VictoryChart, VictoryGroup, VictoryAxis } from 'victory-native';
 import { HealthLimit } from '../data/HealthLimit';
 import { HealthData, InfoText } from '../features/health';
 
@@ -37,6 +37,10 @@ const HealthPage = () => {
         <View>
             <VictoryChart
                 domain={{ x: [0, RECORD_COUNT - 1], y: [0, MAX_VALUE] }}>
+                <VictoryAxis dependentAxis/>
+                <VictoryAxis style={{
+                    tickLabels: { fill:"transparent"}
+                }}/>
                 {graph}
             </VictoryChart>
             <View style={styles.info_text_container}>{info}</View>
